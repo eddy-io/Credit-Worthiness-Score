@@ -37,6 +37,7 @@ What this means for new credit builders
 For someone building credit from scratch, this model suggests prioritizing a clean payment history (avoiding any default) and demonstrating steady income before applying. Credit score itself compounds over time, so starting with a secured card or becoming an authorized user (if available) is advisable, letting positive history accumulate before applying for an unsecured card. These factors appear to matter more than any single detail on the application itself. 
 
 Repo Structure
+
 ├── data/
 │   ├── raw/              # original dataset, untouched
 │   └── processed/        # cleaned data used for analysis

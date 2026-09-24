@@ -22,3 +22,43 @@ Dataset
 - Key features: credit score, years employed, income, debt, prior default status, employment status, age, education level, zip code
 - Target variable: Approved(1) / Denied (0)
 - Important note: per the dataset's own documentation, all attribute values have been anonymized to protect applicant confidentiality. Numeric features (e.g. income, credit_score) should be read as relative indicators, not real-world units like actual dollars or FICO scores. 
+Approach
+1. Data Cleaning - loaded the dataset (originally shipped without headers), assigned descriptive column names, standardized missing-value placeholders, imputed missing numeric values with the median and missing categorical values with the mode, and confirmed no columns needed to be dropped.
+2. EDA - examined correlations between individual features and approval outcome, compared numeric feature distributions across approved/denied applicants, checked for approval rate by category for categorical features, and screened for multicollinearity (none found above r = 0.6).
+3. Modeling - Baseline: Logistic Regression with class_weight='balanced' to address class imbalance. Comparison: Random Forest, same class-weighting approach. 
+4. Explainability - used SHAP values on the Random Forest model to see how each feature pushed individual predictions towards approval or denial, not just its overall ranking.
+5. Evaluation - accuracy, precision, recall and ROC-AUC, weighting precision and ROC-AUC most heavily given the project's goal: minimizing false "you'll get approved" signals that could lead to an avoidable denial and hard inquiry.
+
+Results
+
+Random Forest was selected as the stronger model - it outperformed Logistic Regression on accuracy, precision, and ROC-AUC, while Logistic Regression held a slight edge on recall. Given this project's goal of helping applicants avoid a denial (a costlier mistake than missing out on an application they'd have been approved for), precision and ROC-AUC were weighted more heavily in this decision. 
+
+What this means for new credit builders
+For someone building credit from scratch, this model suggests prioritizing a clean payment history (avoiding any default) and demonstrating steady income before applying. Credit score itself compounds over time, so starting with a secured card or becoming an authorized user (if available) is advisable, letting positive history accumulate before applying for an unsecured card. These factors appear to matter more than any single detail on the application itself. 
+
+Repo Structure
+├── data/
+│   ├── raw/              # original dataset, untouched
+│   └── processed/        # cleaned data used for analysis
+├── notebooks/
+│   ├── 01_data_cleaning.ipynb
+│   ├── 02_eda.ipynb
+│   └── 03_modeling.ipynb
+├── reports/
+│   ├── figures/           # saved charts used in this README
+│   └── best_model.pkl     # trained Random Forest model
+├── requirements.txt
+└── README.md
+
+Running 
+git clone [repo-url]
+cd [repo-name]
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+jupyter notebook notebooks/01_data_cleaning.ipynb
+
+Tech Stack
+Python, pandas, lumpy, scikit-learn, SHAP, matplotlib, seaborn, Jupyter
+
+Built By Eduardo

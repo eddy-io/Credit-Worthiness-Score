@@ -1,9 +1,9 @@
 # Credit-Worthiness-Score
-Credit building is really important, but the decision-making process can seem very complex and at times, random. This project is not able to predict a specific card's approval, it aims to model a general approval likelihood and extracts factors that matter most. 
+Credit building is really important, but the decision-making process can seem very complex and at times, random. This project is not able to predict a specific card's approval; it aims to model a general approval likelihood and extracts factors that matter most. 
 
 The Question
 
-When someone applies for a credit card, the card issuer reports a hard inquiry to evaluate their credit-worthiness. A hard inquiry then appears on that person’s credit score over a certain period of time. The question here is: Can you estimate the likelihood of getting approved for a credit card before applying, and can you understand which factors matter most? 
+When someone applies for a credit card, the card issuer pulls your credit report resulting in a hard inquiry meant to evaluate their worthiness. A hard inquiry then appears on that person’s credit score over a certain period of time. The question here is: Can you estimate the likelihood of getting approved for a credit card before applying, and can you understand which factors matter most? 
 
 Why this Matters 
 
@@ -14,8 +14,14 @@ Credit card applications typically trigger hard inquiries, which can temporarily
 Key Findings 
 - Credit Score (r = 0.41) and years employed (r = 0.32) showed the clearest positive correlations with approval.
 - No prior default, income, and credit score emerged as the top three features driving individual predictions, based on SHAP analysis of the Random Forest model.
-- Age was a weaker predictor than expected. Going in, age seemed to matter a lot, but the data does not prove this, ranking age among the weaker correlations. While some of that effect may be absorbed by different indicators, such as years_employed, as they are related.
+- Age was weaker than expected (r = 0.17). Some of its effect may be captured by years_employed since the two are related.
 - Zip code was the only feature with a negative correlation, but it was very weak (r = -0.10), the weakest relationship of any feature measured, not a meaningful driver of approval on its own. 
+
+<img width="1200" height="750" alt="correlation_with_approval" src="https://github.com/user-attachments/assets/cb162cf3-2b20-41dc-98b1-1470814e5c90" />
+<img width="1151" height="1410" alt="shap_summary" src="https://github.com/user-attachments/assets/be66ce27-9645-46ce-bb7f-44b23988b21a" />
+
+
+
 Dataset
 - Source: UCI Credit Approval Dataset (Kaggle)
 - Size: 690 rows, 16 columns
@@ -29,16 +35,21 @@ Approach
 4. Explainability - used SHAP values on the Random Forest model to see how each feature pushed individual predictions towards approval or denial, not just its overall ranking.
 5. Evaluation - accuracy, precision, recall and ROC-AUC, weighting precision and ROC-AUC most heavily given the project's goal: minimizing false "you'll get approved" signals that could lead to an avoidable denial and hard inquiry.
 
-Results
+## Results
+
+| Model | Accuracy | Precision | Recall | ROC-AUC |
+|---|---|---|---|---|
+| Logistic Regression | 0.870 | 0.831 | 0.885 | 0.946 |
+| Random Forest | 0.884 | 0.881 | 0.852 | 0.954 |
 
 Random Forest was selected as the stronger model - it outperformed Logistic Regression on accuracy, precision, and ROC-AUC, while Logistic Regression held a slight edge on recall. Given this project's goal of helping applicants avoid a denial (a costlier mistake than missing out on an application they'd have been approved for), precision and ROC-AUC were weighted more heavily in this decision. 
 
 What this means for new credit builders
-For someone building credit from scratch, this model suggests prioritizing a clean payment history (avoiding any default) and demonstrating steady income before applying. Credit score itself compounds over time, so starting with a secured card or becoming an authorized user (if available) is advisable, letting positive history accumulate before applying for an unsecured card. These factors appear to matter more than any single detail on the application itself. 
+For someone building credit from scratch, this model suggests prioritizing a clean payment history (avoiding any default) and demonstrating steady income before applying. Credit score builds over time, beyond what the model measures, common credit-building practices suggests starting with a secured card or becoming an authorized user (if available) as advisable. This allows positive history to accumulate before applying for an unsecured card. These factors appear to matter more than any single detail on the application itself. 
 
 Repo Structure
 ├── data/
-│   ├── raw/              # original dataset
+│   ├── raw/              # original dataset, untouched
 │   └── processed/        # cleaned data used for analysis
 ├── notebooks/
 │   ├── 01_data_cleaning.ipynb
@@ -50,7 +61,7 @@ Repo Structure
 ├── requirements.txt
 └── README.md
 
-Running 
+How to Run
 git clone [https://github.com/eddy-io/Credit-Worthiness-Score.git]
 cd [Credit-Worthiness-Score]
 python3 -m venv venv
@@ -58,10 +69,10 @@ source venv/bin/activate
 pip install -r requirements.txt
 jupyter notebook notebooks/01_data_cleaning.ipynb
 
-Limitation and Next Steps
+Limitations and Next Steps
 Anonymized data: per the source dataset's documentation, attribute values are disguised to protect applicant confidentiality. This means the model reflects relative feature importance rather than real-world credit scoring standards, (such as FICO or dollar amounts).
 
-Inconsistent categories: education level pushed towards approval in some cases and towards denials in others with the SHAP analysis. Without proper data labels for what each education category represents, it isn't possible to safely conclude that higher education drives approval -- this is flagged rather than overstated. Being that there are no indicators, there is no remedially effective steps to fix this status. 
+Inconsistent categories: education level pushed towards approval in some cases and towards denials in others in the SHAP analysis. Without proper data labels for what each education category represents, it isn't possible to safely conclude that higher education drives approval -- this is flagged rather than overstated. The dataset doesn't document what each category represents, so this can't be resolved here. 
 
 Zip Code as weak, uncertain signal: treated as a numeric feature for correlation purposes, but zip codes aren't truly ordinal -- very weak negative correlation observed (r= -0.10) may reflect regional patterns specific to this dataset rather than a generalizable predictor. 
 
@@ -69,5 +80,7 @@ The  next steps: are to test on a second, larger dataset (Kaggle/Google) to chec
 
 Tech Stack
 Python, pandas, numpy, scikit-learn, SHAP, matplotlib, seaborn, Jupyter
+
+Source: Quinlan, J. R.. "Credit Approval." UCI Machine Learning Repository, 1987, https://doi.org/10.24432/C5FS30.
 
 Built By Eduardo

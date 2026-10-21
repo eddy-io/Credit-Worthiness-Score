@@ -46,21 +46,22 @@ Random Forest was selected as the stronger model - it outperformed Logistic Regr
 
 What this means for new credit builders
 For someone building credit from scratch, this model suggests prioritizing a clean payment history (avoiding any default) and demonstrating steady income before applying. Credit score builds over time, beyond what the model measures, common credit-building practices suggests starting with a secured card or becoming an authorized user (if available) as advisable. This allows positive history to accumulate before applying for an unsecured card. These factors appear to matter more than any single detail on the application itself. 
+## Repo Structure
 
-Repo Structure
+```
 ├── data/
-│   ├── raw/              # original dataset, untouched
+│   ├── raw/              # original dataset
 │   └── processed/        # cleaned data used for analysis
 ├── notebooks/
 │   ├── 01_data_cleaning.ipynb
 │   ├── 02_eda.ipynb
 │   └── 03_modeling.ipynb
 ├── reports/
-│   ├── figures/           # saved charts used in this README
-│   └── best_model.pkl     # trained Random Forest model
+│   ├── figures/          # saved charts used in this README
+│   └── best_model.pkl    # trained Random Forest model
 ├── requirements.txt
 └── README.md
-
+```
 How to Run
 git clone [https://github.com/eddy-io/Credit-Worthiness-Score.git]
 cd [Credit-Worthiness-Score]

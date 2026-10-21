@@ -51,7 +51,7 @@ Repo Structure
 └── README.md
 
 Running 
-git clone [https://github.com/eddy-io/Credit-Worthiness-Score/edit/main/README.md]
+git clone [https://github.com/eddy-io/Credit-Worthiness-Score.git]
 cd [Credit-Worthiness-Score]
 python3 -m venv venv
 source venv/bin/activate
@@ -68,6 +68,6 @@ Zip Code as weak, uncertain signal: treated as a numeric feature for correlation
 The  next steps: are to test on a second, larger dataset (Kaggle/Google) to check whether these findings generalize; explore a card-recommendation angle as a follow up project. 
 
 Tech Stack
-Python, pandas, lumpy, scikit-learn, SHAP, matplotlib, seaborn, Jupyter
+Python, pandas, numpy, scikit-learn, SHAP, matplotlib, seaborn, Jupyter
 
 Built By Eduardo

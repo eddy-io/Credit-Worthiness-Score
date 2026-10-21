@@ -37,9 +37,8 @@ What this means for new credit builders
 For someone building credit from scratch, this model suggests prioritizing a clean payment history (avoiding any default) and demonstrating steady income before applying. Credit score itself compounds over time, so starting with a secured card or becoming an authorized user (if available) is advisable, letting positive history accumulate before applying for an unsecured card. These factors appear to matter more than any single detail on the application itself. 
 
 Repo Structure
-
 ├── data/
-│   ├── raw/              # original dataset, untouched
+│   ├── raw/              # original dataset
 │   └── processed/        # cleaned data used for analysis
 ├── notebooks/
 │   ├── 01_data_cleaning.ipynb
@@ -52,12 +51,21 @@ Repo Structure
 └── README.md
 
 Running 
-git clone [repo-url]
-cd [repo-name]
+git clone [https://github.com/eddy-io/Credit-Worthiness-Score/edit/main/README.md]
+cd [Credit-Worthiness-Score]
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 jupyter notebook notebooks/01_data_cleaning.ipynb
+
+Limitation and Next Steps
+Anonymized data: per the source dataset's documentation, attribute values are disguised to protect applicant confidentiality. This means the model reflects relative feature importance rather than real-world credit scoring standards, (such as FICO or dollar amounts).
+
+Inconsistent categories: education level pushed towards approval in some cases and towards denials in others with the SHAP analysis. Without proper data labels for what each education category represents, it isn't possible to safely conclude that higher education drives approval -- this is flagged rather than overstated. Being that there are no indicators, there is no remedially effective steps to fix this status. 
+
+Zip Code as weak, uncertain signal: treated as a numeric feature for correlation purposes, but zip codes aren't truly ordinal -- very weak negative correlation observed (r= -0.10) may reflect regional patterns specific to this dataset rather than a generalizable predictor. 
+
+The  next steps: are to test on a second, larger dataset (Kaggle/Google) to check whether these findings generalize; explore a card-recommendation angle as a follow up project. 
 
 Tech Stack
 Python, pandas, lumpy, scikit-learn, SHAP, matplotlib, seaborn, Jupyter

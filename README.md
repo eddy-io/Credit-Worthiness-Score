@@ -65,14 +65,15 @@ For someone building credit from scratch, this model suggests prioritizing a cle
 └── README.md
 ```
 ## How to Run
-'''bash
+
+```bash
 git clone https://github.com/eddy-io/Credit-Worthiness-Score.git
 cd Credit-Worthiness-Score
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 jupyter notebook notebooks/01_data_cleaning.ipynb
-'''
+```
 
 ## Limitations and Next Steps
 Anonymized data: per the source dataset's documentation, attribute values are disguised to protect applicant confidentiality. This means the model reflects relative feature importance rather than real-world credit scoring standards, (such as FICO or dollar amounts).
